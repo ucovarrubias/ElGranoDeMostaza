@@ -32,7 +32,11 @@
         <%@include file="jspf/navbar.jspf"%>
         
 
-        <div class="container-fluid m-0 px-0" style="padding-top:100px;">
+        <div class="container-fluid m-0 px-0" style="padding-top:80px;">
+            <nav class="navbar navbar-expand-sm bg-none justify-content-center mb-2">
+                <h5 class="h5 px-3"><i class="fa-solid fa-circle-user"></i> Mi perfil</h5>
+                <h5 class="h5 px-3"><a href="buscarPedidos" style=" text-decoration: none; color: inherit;"><i class="fa-solid fa-box"></i> Mis pedidos</a></h5>
+             </nav>
             <div class="row">
                 <div class="col-sm-3"></div>
                 <div class="col-sm-6">

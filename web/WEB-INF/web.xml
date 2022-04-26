@@ -28,6 +28,10 @@
         <servlet-name>registrarPedido</servlet-name>
         <servlet-class>servlet.RegistrarPedido</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>buscarPedidos</servlet-name>
+        <servlet-class>servlet.BuscarPedidos</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>registrarCliente</servlet-name>
         <url-pattern>/registrarCliente</url-pattern>
@@ -55,6 +59,10 @@
     <servlet-mapping>
         <servlet-name>registrarPedido</servlet-name>
         <url-pattern>/registrarPedido</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>buscarPedidos</servlet-name>
+        <url-pattern>/buscarPedidos</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
