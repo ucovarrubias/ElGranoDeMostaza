@@ -40,9 +40,9 @@ public class RegistrarCliente extends HttpServlet {
         Direccion direccion = new Direccion();
         
         // Obtiene de la solicitud los datos de un cliente y los guarda al bean cliente
-        cliente.setUsuario((String) request.getParameter("usuario"));
+        cliente.setUsuario((String) request.getParameter("reg_usuario"));
         cliente.setEmail((String) request.getParameter("email"));
-        cliente.setContrasenia((String) request.getParameter("contrasenia"));
+        cliente.setContrasenia((String) request.getParameter("reg_contrasenia"));
         cliente.setNombre((String) request.getParameter("nombre"));
         cliente.setApellido((String) request.getParameter("apellido"));
         cliente.setTelefono((String) request.getParameter("telefono"));

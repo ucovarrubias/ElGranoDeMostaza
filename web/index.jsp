@@ -20,6 +20,8 @@
         <script src="https://kit.fontawesome.com/c7d94c22d4.js" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"></script>
         <link href="css/style.css" rel="stylesheet" type="text/css"/>
+        
+        
     </head>
     <body data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="50">
         
@@ -90,7 +92,7 @@
                             <input type="text" maxlength="20" 
                                    pattern="[a-zA-Z0-9_]{5,20}"
                                    title="El nombre de usuario debe ser mayor a 5 y menor a 20 caracteres, sin caracteres especiales."
-                                   class="form-control mb-2" id="usuario" placeholder="Usuario" name="usuario" required>
+                                   class="form-control mb-2" id="reg_usuario" placeholder="Usuario" name="reg_usuario" required>
                             
                             <!-- Nombre -->
                             <input type="text" maxlength="20" 
@@ -112,7 +114,12 @@
                             <!-- Contraseña -->
                             <input type="password" maxlength="15" pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\S+$).{6,}$"
                                    title="La contraseña debe ser mayor a 6 caracteres y debe incluir por lo menos una mayúscula y un d&iacute;gito. M&aacute;ximo 15 caracteres."
-                                   class="form-control mb-2" id="contrasenia" placeholder="Contrase&ntilde;a" name="contrasenia" required>
+                                   class="form-control mb-2" id="reg_contrasenia" placeholder="Contrase&ntilde;a" name="reg_contrasenia" required>
+                            
+                            <!-- Confirmar contraseña -->
+                            <input type="password" maxlength="15" pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\S+$).{6,}$"
+                                   title="La contraseña debe ser mayor a 6 caracteres y debe incluir por lo menos una mayúscula y un d&iacute;gito. M&aacute;ximo 15 caracteres."
+                                   class="form-control mb-2" id="reg_confirmar_contrasenia" placeholder="Confirmar contrase&ntilde;a" name="reg_confirmar_contrasenia" required>
                             
                             <!-- Calle -->
                             <input type="text" maxlength="20" 
@@ -290,5 +297,19 @@
         <div class="mt-5 p-4 bg-dark text-white text-center">
             <p>Todos los derechos reservados</p>
         </div>
+        
+        <script>
+            var password = document.getElementById("reg_contrasenia"), confirm_password = document.getElementById("reg_confirmar_contrasenia");
+
+            function validatePassword(){
+                if(password.value != confirm_password.value) {
+                    confirm_password.setCustomValidity("Las contraseñas no coinciden");
+                } else {
+                    confirm_password.setCustomValidity('');
+                }
+            }
+            password.onchange = validatePassword;
+            confirm_password.onkeyup = validatePassword;
+        </script>
     </body>
 </html>

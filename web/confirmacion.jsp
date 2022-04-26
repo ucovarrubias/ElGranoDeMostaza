@@ -11,8 +11,11 @@
     <head>        
         <%
             Cliente cliente = (Cliente) session.getAttribute("cliente");
+            String totalPedido = null;
             if (null == cliente) {
                 response.sendRedirect("index.jsp");
+            } else {
+                totalPedido = (String) request.getAttribute("totalPedido");
             }
         %>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -34,13 +37,19 @@
         <div class="container mt-5">
             <div class="row">
                 <div class="col text-center">
+                    <img src="images/logo.png" alt="Logo" style="width:100px;" class="pill">
                     <h1>¡Tu pedido se ha realizado con exito!</h1>
                     <h5 class="mb-5">Los datos para la transeferencia bancaria son los siguientes:</h5>
-                    <h5 class="mb-5" style="color:red"><\Insertar datos bancarios aquí\></h5>
+                    <h4>Número de cuenta CLABE</h4>
+                    <h4>1277 6701 3318 8922 81</h4>
+                    <br>
+                    <h4>Total a depositar:</h4>
+                    <h4>$<%= totalPedido %></h4>
                     <br>
                     <h5 class="mb-5">Tu pedido será enviado en cuanto se realize el pago correspondiente.</h5>
                     
                     <!--<small>El navegador te rediccionar&aacute; autom&aacute;ticamente</small>-->
+                    <button class="btn btn-primary" onclick="document.location='index.jsp'">Regresar al Inicio</button>
                 </div>
             </div>
         </div>

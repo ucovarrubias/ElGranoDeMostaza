@@ -87,6 +87,8 @@ public class RegistrarPedido extends HttpServlet {
             System.err.println(ex.getMessage());
         }
         
+        request.setAttribute("totalPedido", (String.valueOf(subtotal*1.16f)));
+        
         rd = request.getRequestDispatcher("confirmacion.jsp");
         rd.forward(request, response);
     }
