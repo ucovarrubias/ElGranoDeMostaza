@@ -50,7 +50,9 @@
             <nav class="navbar navbar-expand-sm bg-none justify-content-center mb-2">
                 <h5 class="h5 px-3"><a href="home.jsp" style=" text-decoration: none; color: inherit;"><i class="fa-solid fa-circle-user"></i> Mi perfil</a></h5>
                 <h5 class="h5 px-3"><i class="fa-solid fa-box"></i> Mis pedidos</h5>
+
                      <h5 class="h5 px-3"><a href="Pagina1.jsp" style=" text-decoration: none; color: inherit;"><i class="fa-solid fa-chevron-right"></i> Cargar Imagen</a></h5>
+
              </nav>
             <%
                 if(!listaPedidos.isEmpty()){
