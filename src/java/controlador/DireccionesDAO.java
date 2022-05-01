@@ -52,8 +52,9 @@ public class DireccionesDAO extends BaseDAO<Direccion>{
                 String estado = resultado.getString("estado");
                 String pais = resultado.getString("pais");
                 direccion = new Direccion(id, calle, numExterior, Integer.parseInt(codigoPostal), ciudad, estado, pais, clienteId);
-                return direccion;
             }
+            conexion.close();
+            return direccion;
         } catch (SQLException ex){
             System.err.println(ex.getMessage());
         }

@@ -6,6 +6,7 @@
 package controlador;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -114,8 +115,34 @@ public class PedidosDAO extends BaseDAO<Pedido>{
     }
 
     @Override
-    public ArrayList<Pedido> consultarPorCliente(Integer id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public ArrayList<Pedido> consultarPorCliente(Integer clienteId) {
+        ArrayList<Pedido> listaPedidos = new ArrayList<>();
+        try {
+            Connection conexion = this.generarConexion();
+            Statement comando = conexion.createStatement();
+            String codigoSQL = String.format("SELECT * FROM pedidos WHERE cliente_id = '%d'",
+                    clienteId
+            );
+            ResultSet resultado = comando.executeQuery(codigoSQL);
+            while(resultado.next()){
+                Integer id = resultado.getInt("id");
+                Float subtotal = resultado.getFloat("subtotal");
+                Float iva = resultado.getFloat("iva");
+                Float total = resultado.getFloat("total");
+                Integer direccion = resultado.getInt("direccion_id");
+                String email_pedido = resultado.getString("email_pedido");
+                Date fecha_pedido = resultado.getDate("fecha_pedido");
+                
+                Pedido pedido = new Pedido(id, clienteId, subtotal, iva, total, direccion, email_pedido, fecha_pedido);
+                listaPedidos.add(pedido);
+            }
+            conexion.close();
+            System.out.println("Se consultaron los pedidos del cliente");
+            return listaPedidos;
+        } catch (SQLException ex){
+            System.err.println(ex.getMessage());
+            return listaPedidos;
+        }
     }
     
 }
