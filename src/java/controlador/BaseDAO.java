@@ -20,7 +20,7 @@ public abstract class BaseDAO<T> {
     
     private static final String CADENA_CONEXION = "jdbc:mysql://localhost:3306/tienda_virtual?autoReconnet=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
     private static final String USUARIO = "root";
-    private static final String CONTRASENIA = "sesamo";
+    private static final String CONTRASENIA = "";
     private static final String CLASSNAME="com.mysql.jdbc.Driver";
     
     protected Connection generarConexion() throws SQLException{
