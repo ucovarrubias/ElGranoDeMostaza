@@ -104,4 +104,36 @@ public class PedidosDetallesDAO extends BaseDAO<PedidoDetalles>{
         }
     }
     
+    public ArrayList<PedidoDetalles> consultarPorIdPedido(Integer idpedido) {
+
+        ArrayList<PedidoDetalles> listaPedidos = new ArrayList<>();
+
+        try {
+            Connection conexion = this.generarConexion();
+            Statement comando = conexion.createStatement();
+            String codigoSQL = String.format("SELECT id,producto_id,precio,cantidad FROM pedidos_detalles WHERE pedido_id = '%d'", idpedido);
+
+            ResultSet resultado = comando.executeQuery(codigoSQL);
+
+            while (resultado.next()) {
+
+                PedidoDetalles pedido = new PedidoDetalles();
+
+                pedido.setId(resultado.getInt("id"));
+                pedido.setProductoId(resultado.getInt("producto_id"));
+                pedido.setCantidad(resultado.getInt("cantidad"));
+                pedido.setPrecio(resultado.getFloat("precio"));
+                pedido.setPedidoId(idpedido);
+
+                listaPedidos.add(pedido);
+            }
+            conexion.close();
+            return listaPedidos;
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return listaPedidos;
+        }
+    }
+    
 }

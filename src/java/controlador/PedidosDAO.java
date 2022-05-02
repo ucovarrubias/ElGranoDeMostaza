@@ -17,7 +17,7 @@ import modelo.Pedido;
  *
  * @author ucova
  */
-public class PedidosDAO extends BaseDAO<Pedido>{
+public class PedidosDAO extends BaseDAO<Pedido> {
 
     @Override
     public Pedido autenticacion(String email, String contrasenia) {
@@ -26,7 +26,36 @@ public class PedidosDAO extends BaseDAO<Pedido>{
 
     @Override
     public ArrayList<Pedido> consultar() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ArrayList<Pedido> listaPedidos = new ArrayList<>();
+
+        try {
+            Connection conexion = this.generarConexion();
+            Statement comando = conexion.createStatement();
+            ResultSet resultado = comando.executeQuery("SELECT id,cliente_id,direccion_id,email_pedido,"
+                    + "fecha_pedido,iva,subtotal,total FROM pedidos");
+
+            while (resultado.next()) {
+
+                Pedido pedido = new Pedido();
+
+                pedido.setClienteId(resultado.getInt("cliente_id"));
+                pedido.setDireccionId(resultado.getInt("direccion_id"));
+                pedido.setEmailPedido(resultado.getString("email_pedido"));
+                pedido.setFechaPedido(resultado.getDate("fecha_pedido"));
+                pedido.setId(resultado.getInt("id"));
+                pedido.setIva(resultado.getFloat("iva"));
+                pedido.setSubtotal(resultado.getFloat("subtotal"));
+                pedido.setTotal(resultado.getFloat("total"));
+
+                listaPedidos.add(pedido);
+            }
+            conexion.close();
+            return listaPedidos;
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return listaPedidos;
+        }
     }
 
     @Override
@@ -39,12 +68,12 @@ public class PedidosDAO extends BaseDAO<Pedido>{
                     id
             );
             ResultSet resultado = comando.executeQuery(codigoSQL);
-            if(resultado.next()){
+            if (resultado.next()) {
                 Integer ultimoId = resultado.getInt("max_id");
                 pedido = new Pedido(ultimoId, id);
                 return pedido;
             }
-        } catch (SQLException ex){
+        } catch (SQLException ex) {
             System.err.println(ex.getMessage());
         }
         return pedido;
@@ -52,51 +81,51 @@ public class PedidosDAO extends BaseDAO<Pedido>{
 
     @Override
     public void insertar(Pedido pedido) {
-        try{
-        // Conexión a través de un JDBC para MySQL indicando el servidor 
-        // a conectarse con usuario y contraseña
-        Connection conexion = this.generarConexion();
-        // Se crea un objeto statement
-        Statement comando = conexion.createStatement();
-        // Se crea un objeto String con String.format para acomodar las variables
-        // que se convertirán en formato SQL .
-        String codigoSQL = String.format(
-            "INSERT INTO pedidos(cliente_id, fecha_pedido) VALUES('%d', CURRENT_TIMESTAMP)",
-                pedido.getClienteId()
-//                pedido.getSubtotal(),
-//                pedido.getIva(),
-//                pedido.getTotal(),
-//                pedido.getDireccionPedido(),
-//                pedido.getEmailPedido(),
-//                pedido.getFechaPedido()
-        );
-        // Se manda a llamar el objeto de Statement para usar el método
-        // executeUpdate y recibe como parámetro el string creado arriba
-        // para posteriormente registrarse en la BD.
-        comando.executeUpdate(codigoSQL);
-        conexion.close();
-        System.out.println("Pedido se registró correctamente");
-        } catch(SQLException ex){
+        try {
+            // Conexión a través de un JDBC para MySQL indicando el servidor 
+            // a conectarse con usuario y contraseña
+            Connection conexion = this.generarConexion();
+            // Se crea un objeto statement
+            Statement comando = conexion.createStatement();
+            // Se crea un objeto String con String.format para acomodar las variables
+            // que se convertirán en formato SQL .
+            String codigoSQL = String.format(
+                    "INSERT INTO pedidos(cliente_id, fecha_pedido) VALUES('%d', CURRENT_TIMESTAMP)",
+                    pedido.getClienteId()
+            //                pedido.getSubtotal(),
+            //                pedido.getIva(),
+            //                pedido.getTotal(),
+            //                pedido.getDireccionPedido(),
+            //                pedido.getEmailPedido(),
+            //                pedido.getFechaPedido()
+            );
+            // Se manda a llamar el objeto de Statement para usar el método
+            // executeUpdate y recibe como parámetro el string creado arriba
+            // para posteriormente registrarse en la BD.
+            comando.executeUpdate(codigoSQL);
+            conexion.close();
+            System.out.println("Pedido se registró correctamente");
+        } catch (SQLException ex) {
             System.err.println(ex.getMessage());
         }
     }
 
     @Override
     public void actualizar(Pedido pedido) throws Exception {
-        if(pedido.getId()== null){
+        if (pedido.getId() == null) {
             throw new Exception("Pedido no encontrado");
         }
-        try{
+        try {
             Connection conexion = this.generarConexion();
             Statement comando = conexion.createStatement();
             String codigoSQL = String.format(
-                "UPDATE pedidos SET subtotal='%f',iva='%f', total='%f', direccion_id='%s', email_pedido='%s' WHERE id='%d'",
-                pedido.getSubtotal(),
-                pedido.getIva(),
-                pedido.getTotal(),
-                pedido.getDireccionId(),
-                pedido.getEmailPedido(),
-                pedido.getId()
+                    "UPDATE pedidos SET subtotal='%f',iva='%f', total='%f', direccion_id='%s', email_pedido='%s' WHERE id='%d'",
+                    pedido.getSubtotal(),
+                    pedido.getIva(),
+                    pedido.getTotal(),
+                    pedido.getDireccionId(),
+                    pedido.getEmailPedido(),
+                    pedido.getId()
             );
             int conteoRegistrosAfectados = comando.executeUpdate(codigoSQL);
             if (conteoRegistrosAfectados == 1) {
@@ -104,7 +133,7 @@ public class PedidosDAO extends BaseDAO<Pedido>{
             } else {
                 System.out.println("No se pudo actualizar el pedido");
             }
-        } catch(SQLException ex){
+        } catch (SQLException ex) {
             System.err.println(ex.getMessage());
         }
     }
@@ -124,7 +153,7 @@ public class PedidosDAO extends BaseDAO<Pedido>{
                     clienteId
             );
             ResultSet resultado = comando.executeQuery(codigoSQL);
-            while(resultado.next()){
+            while (resultado.next()) {
                 Integer id = resultado.getInt("id");
                 Float subtotal = resultado.getFloat("subtotal");
                 Float iva = resultado.getFloat("iva");
@@ -132,17 +161,52 @@ public class PedidosDAO extends BaseDAO<Pedido>{
                 Integer direccion = resultado.getInt("direccion_id");
                 String email_pedido = resultado.getString("email_pedido");
                 Date fecha_pedido = resultado.getDate("fecha_pedido");
-                
+
                 Pedido pedido = new Pedido(id, clienteId, subtotal, iva, total, direccion, email_pedido, fecha_pedido);
                 listaPedidos.add(pedido);
             }
             conexion.close();
             System.out.println("Se consultaron los pedidos del cliente");
             return listaPedidos;
-        } catch (SQLException ex){
+        } catch (SQLException ex) {
             System.err.println(ex.getMessage());
             return listaPedidos;
         }
     }
-    
+
+    public ArrayList<Pedido> generarReportePeriodo(String inicio, String fin) {
+
+        ArrayList<Pedido> listaSocios = new ArrayList<>();
+
+        try {
+            Connection conexion = this.generarConexion();
+            Statement comando = conexion.createStatement();
+            ResultSet resultado = comando.executeQuery("SELECT id,cliente_id,direccion_id,email_pedido,"
+                    + "fecha_pedido,iva,subtotal,total FROM pedidos WHERE fecha_pedido BETWEEN '" + inicio + "' AND '"
+                    + fin + "'");
+
+            while (resultado.next()) {
+
+                Pedido pedido = new Pedido();
+
+                pedido.setClienteId(resultado.getInt("cliente_id"));
+                pedido.setDireccionId(resultado.getInt("direccion_id"));
+                pedido.setEmailPedido(resultado.getString("email_pedido"));
+                pedido.setFechaPedido(resultado.getDate("fecha_pedido"));
+                pedido.setId(resultado.getInt("id"));
+                pedido.setIva(resultado.getFloat("iva"));
+                pedido.setSubtotal(resultado.getFloat("subtotal"));
+                pedido.setTotal(resultado.getFloat("total"));
+
+                listaSocios.add(pedido);
+            }
+            conexion.close();
+            return listaSocios;
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return listaSocios;
+        }
+    }
+
 }

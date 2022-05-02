@@ -16,7 +16,7 @@ import modelo.Direccion;
  *
  * @author ucova
  */
-public class DireccionesDAO extends BaseDAO<Direccion>{
+public class DireccionesDAO extends BaseDAO<Direccion> {
 
     @Override
     public Direccion autenticacion(String email, String contrasenia) {
@@ -43,7 +43,7 @@ public class DireccionesDAO extends BaseDAO<Direccion>{
                     clienteId
             );
             ResultSet resultado = comando.executeQuery(codigoSQL);
-            if(resultado.next()){
+            if (resultado.next()) {
                 Integer id = resultado.getInt("id");
                 String calle = resultado.getString("calle");
                 String numExterior = resultado.getString("num_exterior");
@@ -55,7 +55,7 @@ public class DireccionesDAO extends BaseDAO<Direccion>{
             }
             conexion.close();
             return direccion;
-        } catch (SQLException ex){
+        } catch (SQLException ex) {
             System.err.println(ex.getMessage());
         }
         return direccion;
@@ -63,7 +63,7 @@ public class DireccionesDAO extends BaseDAO<Direccion>{
 
     @Override
     public void insertar(Direccion direccion) {
-        try{
+        try {
             // Conexión a través de un JDBC para MySQL indicando el servidor 
             // a conectarse con usuario y contraseña
             Connection conexion = this.generarConexion();
@@ -72,7 +72,7 @@ public class DireccionesDAO extends BaseDAO<Direccion>{
             // Se crea un objeto String con String.format para acomodar las variables
             // que se convertirán en formato SQL .
             String codigoSQL = String.format(
-                "INSERT INTO direcciones(calle, num_exterior, codigo_postal, ciudad, estado, pais, cliente_id) VALUES('%s','%s','%s','%s','%s','%s','%d')",
+                    "INSERT INTO direcciones(calle, num_exterior, codigo_postal, ciudad, estado, pais, cliente_id) VALUES('%s','%s','%s','%s','%s','%s','%d')",
                     direccion.getCalle(),
                     direccion.getNumExterior(),
                     direccion.getCodigoPostal(),
@@ -87,21 +87,21 @@ public class DireccionesDAO extends BaseDAO<Direccion>{
             comando.executeUpdate(codigoSQL);
             conexion.close();
             System.out.println("Dirección se registró correctamente");
-        } catch(SQLException ex){
+        } catch (SQLException ex) {
             System.err.println(ex.getMessage());
         }
     }
 
     @Override
     public void actualizar(Direccion direccion) throws Exception {
-        if(direccion.getClienteId()== null){
+        if (direccion.getClienteId() == null) {
             throw new Exception("Dirección del cliente no encontrado");
         }
-        try{
+        try {
             Connection conexion = this.generarConexion();
             Statement comando = conexion.createStatement();
             String codigoSQL = String.format(
-                "UPDATE direcciones SET calle='%s', num_exterior='%s', codigo_postal='%s', ciudad='%s', estado='%s', pais='%s' WHERE cliente_id=%d",
+                    "UPDATE direcciones SET calle='%s', num_exterior='%s', codigo_postal='%s', ciudad='%s', estado='%s', pais='%s' WHERE cliente_id=%d",
                     direccion.getCalle(),
                     direccion.getNumExterior(),
                     direccion.getCodigoPostal(),
@@ -116,7 +116,7 @@ public class DireccionesDAO extends BaseDAO<Direccion>{
             } else {
                 System.out.println("No se pudo actualizar la dirección");
             }
-        } catch(SQLException ex){
+        } catch (SQLException ex) {
             System.err.println(ex.getMessage());
         }
     }
@@ -125,5 +125,32 @@ public class DireccionesDAO extends BaseDAO<Direccion>{
     public void eliminar(Integer id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
+    public Direccion consultarPorId(Integer direccionId) {
+        Direccion direccion = null;
+        try {
+            Connection conexion = this.generarConexion();
+            Statement comando = conexion.createStatement();
+            String codigoSQL = String.format("SELECT calle, num_exterior, codigo_postal, ciudad, estado, pais, cliente_id FROM direcciones WHERE id = '%d'",
+                    direccionId
+            );
+            ResultSet resultado = comando.executeQuery(codigoSQL);
+            if (resultado.next()) {
+                String calle = resultado.getString("calle");
+                String numExterior = resultado.getString("num_exterior");
+                String codigoPostal = resultado.getString("codigo_postal");
+                String ciudad = resultado.getString("ciudad");
+                String estado = resultado.getString("estado");
+                String pais = resultado.getString("pais");
+                String clienteId = resultado.getString("cliente_id");
+
+                direccion = new Direccion(direccionId, calle, numExterior, Integer.parseInt(codigoPostal), ciudad, estado, pais, Integer.parseInt(clienteId));
+                return direccion;
+            }
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+        return direccion;
+    }
+
 }
