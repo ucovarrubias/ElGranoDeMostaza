@@ -26,7 +26,36 @@ public class PedidosDAO extends BaseDAO<Pedido>{
 
     @Override
     public ArrayList<Pedido> consultar() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      ArrayList<Pedido> listaPedidos = new ArrayList<>();
+
+        try {
+            Connection conexion = this.generarConexion();
+            Statement comando = conexion.createStatement();
+            ResultSet resultado = comando.executeQuery("SELECT id,cliente_id,direccion_id,email_pedido,"
+                    + "fecha_pedido,iva,subtotal,total FROM pedidos");
+
+            while (resultado.next()) {
+
+                Pedido pedido = new Pedido();
+
+                pedido.setClienteId(resultado.getInt("cliente_id"));
+                pedido.setDireccionId(resultado.getInt("direccion_id"));
+                pedido.setEmailPedido(resultado.getString("email_pedido"));
+                pedido.setFechaPedido(resultado.getDate("fecha_pedido"));
+                pedido.setId(resultado.getInt("id"));
+                pedido.setIva(resultado.getFloat("iva"));
+                pedido.setSubtotal(resultado.getFloat("subtotal"));
+                pedido.setTotal(resultado.getFloat("total"));
+
+                listaPedidos.add(pedido);
+            }
+            conexion.close();
+            return listaPedidos;
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return listaPedidos;
+        }
     }
 
     @Override
@@ -142,6 +171,41 @@ public class PedidosDAO extends BaseDAO<Pedido>{
         } catch (SQLException ex){
             System.err.println(ex.getMessage());
             return listaPedidos;
+        }
+    }
+    
+    public ArrayList<Pedido> generarReportePeriodo(String inicio, String fin) {
+
+        ArrayList<Pedido> listaSocios = new ArrayList<>();
+
+        try {
+            Connection conexion = this.generarConexion();
+            Statement comando = conexion.createStatement();
+            ResultSet resultado = comando.executeQuery("SELECT id,cliente_id,direccion_id,email_pedido,"
+                    + "fecha_pedido,iva,subtotal,total FROM pedidos WHERE fecha_pedido BETWEEN '" + inicio + "' AND '"
+                    + fin + "'");
+
+            while (resultado.next()) {
+
+                Pedido pedido = new Pedido();
+
+                pedido.setClienteId(resultado.getInt("cliente_id"));
+                pedido.setDireccionId(resultado.getInt("direccion_id"));
+                pedido.setEmailPedido(resultado.getString("email_pedido"));
+                pedido.setFechaPedido(resultado.getDate("fecha_pedido"));
+                pedido.setId(resultado.getInt("id"));
+                pedido.setIva(resultado.getFloat("iva"));
+                pedido.setSubtotal(resultado.getFloat("subtotal"));
+                pedido.setTotal(resultado.getFloat("total"));
+
+                listaSocios.add(pedido);
+            }
+            conexion.close();
+            return listaSocios;
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return listaSocios;
         }
     }
     
