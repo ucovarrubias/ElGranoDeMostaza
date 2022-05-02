@@ -1,0 +1,24 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+<!-- Barra de navegación -->
+<nav class="navbar fixed-top navbar-expand-sm bg-dark navbar-dark justify-content-center">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="index.jsp#inicio">
+            <img src="images/logo.png" alt="Logo" style="width:50px;" class="pill"> 
+        </a>
+        <ul class="navbar-nav">
+
+        </ul>
+
+        <ul class="nav justify-content-end">
+            <li class="nav-item ">
+                <% if(cliente != null){ %>
+                    <a class="nav-link nav-derecha" href="home.jsp"><i class="fas fa-user"></i></a>
+                <% } else { %>
+                    <a class="nav-link nav-derecha" data-bs-toggle="offcanvas" data-bs-target="#demo" href="#"><i class="fas fa-user"></i></a>
+                <% } %>
+            </li>
+        </ul>
+    </div>
+</nav>
+<!-- Fin de barra de navegación -->

@@ -126,4 +126,31 @@ public class DireccionesDAO extends BaseDAO<Direccion>{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+    public Direccion consultarPorId(Integer direccionId) {
+        Direccion direccion = null;
+        try {
+            Connection conexion = this.generarConexion();
+            Statement comando = conexion.createStatement();
+            String codigoSQL = String.format("SELECT calle, num_exterior, codigo_postal, ciudad, estado, pais, cliente_id FROM direcciones WHERE id = '%d'",
+                    direccionId
+            );
+            ResultSet resultado = comando.executeQuery(codigoSQL);
+            if (resultado.next()) {
+                String calle = resultado.getString("calle");
+                String numExterior = resultado.getString("num_exterior");
+                String codigoPostal = resultado.getString("codigo_postal");
+                String ciudad = resultado.getString("ciudad");
+                String estado = resultado.getString("estado");
+                String pais = resultado.getString("pais");
+                String clienteId = resultado.getString("cliente_id");
+
+                direccion = new Direccion(direccionId, calle, numExterior, Integer.parseInt(codigoPostal), ciudad, estado, pais, Integer.parseInt(clienteId));
+                return direccion;
+            }
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+        return direccion;
+    }
+    
 }
