@@ -13,7 +13,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+import modelo.Cliente;
 
 @WebServlet(name = "ControllerImagen", urlPatterns = {"/ControllerImagen"})
 @MultipartConfig(maxFileSize = 16177215)    // upload file's size up to 16MB
@@ -23,7 +25,7 @@ import javax.servlet.http.Part;
  */
 public class ControllerImagen extends HttpServlet {
 
-    public static final String lIST_STUDENT = "/Pagina1.jsp";
+    public static final String lIST_STUDENT = "/registrarPago.jsp";
     public static final String INSERT_OR_EDIT = "/Pagina2.jsp";
 
     String estado = null;
@@ -75,6 +77,9 @@ public class ControllerImagen extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        HttpSession session = request.getSession();
+        Cliente cliente = (Cliente) session.getAttribute("cliente");
+        
         ImagenVO imagenvo = new ImagenVO();
         sql auto = new sql();
         int nuevoid = auto.auto_increm("SELECT MAX(codigoimg) FROM imagen;");
@@ -103,6 +108,7 @@ public class ControllerImagen extends HttpServlet {
             
             if (estado.equalsIgnoreCase("insert")) {
                 imagenvo.setCodigoimg(nuevoid);
+                imagenvo.setCliente_id(cliente.getIdCliente());
                 if (inputStream != null) {
                     imagenvo.setArchivoimg(inputStream);
                 }
@@ -120,7 +126,7 @@ public class ControllerImagen extends HttpServlet {
             System.out.println("textos: "+ex.getMessage());
         }
 
-        RequestDispatcher view = request.getRequestDispatcher("/Pagina1.jsp");
+        RequestDispatcher view = request.getRequestDispatcher("/registrarPago.jsp");
         view.forward(request, response);
     }
 

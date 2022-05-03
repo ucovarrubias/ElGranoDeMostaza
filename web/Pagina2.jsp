@@ -38,55 +38,56 @@
             }
         %>
 
+        <div class="container" style="padding-top:80px;">
+            <form name="formimg" action="ControllerImagen" method="post" enctype="multipart/form-data">
+                <div class="datagrid">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Folio</th>
+                                <th>Campo</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <td colspan="2">
 
-        <form name="formimg" action="ControllerImagen" method="post" enctype="multipart/form-data">
-            <div class="datagrid">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Folio</th>
-                            <th>Campo</th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        <tr>
-                            <td colspan="2">
-
-                            </td>
-                        </tr>
-                    </tfoot>
-                    <tbody>
-                        <tr>
-                            <td><label for="id">Folio del archivo: </label>
-                            </td>  
-                            <td>
-                                <input type="text" name="txtname" value="<c:out value="${row.nombreimg}" />"/>
-                            </td>
-                        </tr>
-                        <tr class="alt">
-                            <td>
-                                <label for="id">Seleccionar Imagen: *</label> 
-                                <%
-                                    if (icono) {
-                                %>
-                                <a href="imagen?id=<%out.print(dato); %>" target="_blank"> Ver Imagen</a>
-                                <%
-                                    } else {
-                                        out.print("Sin Imagen");
-                                    }
-                                %>
-                            </td>  
-                            <td>
-                                <input type="file" name="fichero" value="" id="btn" class="btn" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" style="text-align: center"><input type="submit" value="Enviar Archivo" name="submit" id="btn" class="btn"/></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </form>
-        <h5 class="h5 px-3"><a href="Pagina1.jsp" style=" text-decoration: none; color: inherit;"><i class="fa-solid fa-chevron-left"></i> Regresar</a></h5>
+                                </td>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            <tr>
+                                <td><label for="id">Folio del archivo: </label>
+                                </td>  
+                                <td>
+                                    <input type="text" name="txtname" value="<c:out value="${row.nombreimg}" />"/>
+                                </td>
+                            </tr>
+                            <tr class="alt">
+                                <td>
+                                    <label for="id">Seleccionar Imagen: *</label> 
+                                    <%
+                                        if (icono) {
+                                    %>
+                                    <a href="imagen?id=<%out.print(dato); %>" target="_blank"> Ver Imagen</a>
+                                    <%
+                                        } else {
+                                            out.print("Sin Imagen");
+                                        }
+                                    %>
+                                </td>  
+                                <td>
+                                    <input type="file" name="fichero" id="btn" class="btn" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="text-align: center"><input type="submit" value="Enviar Archivo" name="submit" id="btn" class="btn"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+            <h5 class="h5 px-3"><a href="registrarPago.jsp" style=" text-decoration: none; color: inherit;"><i class="fa-solid fa-chevron-left"></i> Regresar</a></h5>
+        </div>
     </body>
 </html>

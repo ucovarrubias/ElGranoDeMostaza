@@ -13,6 +13,7 @@ import java.sql.Date;
  */
 public class Pedido {
     private Integer id;
+    private String folio;
     private Integer clienteId;
     private Float subtotal;
     private Float iva;
@@ -28,12 +29,14 @@ public class Pedido {
         this.clienteId = clienteId;
     }
 
-    public Pedido(Integer id, Integer clienteId) {
+    public Pedido(Integer id, String folio, Integer clienteId) {
         this.id = id;
+        this.folio = folio;
         this.clienteId = clienteId;
     }    
 
-    public Pedido(Integer clienteId, Float subtotal, Float iva, Float total, Integer direccionId, String emailPedido, Date fechaPedido) {
+    public Pedido(String folio, Integer clienteId, Float subtotal, Float iva, Float total, Integer direccionId, String emailPedido, Date fechaPedido) {
+        this.folio = folio;
         this.clienteId = clienteId;
         this.subtotal = subtotal;
         this.iva = iva;
@@ -43,8 +46,9 @@ public class Pedido {
         this.fechaPedido = fechaPedido;
     }
 
-    public Pedido(Integer id, Integer clienteId, Float subtotal, Float iva, Float total, Integer direccionId, String emailPedido, Date fechaPedido) {
+    public Pedido(Integer id, String folio, Integer clienteId, Float subtotal, Float iva, Float total, Integer direccionId, String emailPedido, Date fechaPedido) {
         this.id = id;
+        this.folio = folio;
         this.clienteId = clienteId;
         this.subtotal = subtotal;
         this.iva = iva;
@@ -62,6 +66,14 @@ public class Pedido {
         this.id = id;
     }
 
+    public String getFolio() {
+        return folio;
+    }
+
+    public void setFolio(String folio) {
+        this.folio = folio;
+    }
+    
     public Integer getClienteId() {
         return clienteId;
     }
@@ -120,7 +132,7 @@ public class Pedido {
 
     @Override
     public String toString() {
-        return "Pedido{" + "id=" + id + ", clienteId=" + clienteId + ", subtotal=" + subtotal + ", iva=" + iva + ", total=" + total + ", direccionId=" + direccionId + ", emailPedido=" + emailPedido + ", fechaPedido=" + fechaPedido + '}';
+        return "Pedido{" + "id=" + id + ", folio=" + folio + ", clienteId=" + clienteId + ", subtotal=" + subtotal + ", iva=" + iva + ", total=" + total + ", direccionId=" + direccionId + ", emailPedido=" + emailPedido + ", fechaPedido=" + fechaPedido + '}';
     }
-    
+
 }

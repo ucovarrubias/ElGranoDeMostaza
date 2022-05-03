@@ -24,6 +24,7 @@ import modelo.Direccion;
 import modelo.Pedido;
 import modelo.PedidoDetalles;
 
+import util.GenerarFolio;
 /**
  *
  * @author ucova
@@ -43,6 +44,7 @@ public class RegistrarPedido extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         RequestDispatcher rd;
+        String tarea = request.getParameter("tarea");
         
         // Se declaran las DAOs necesarias para las transacciones
         BaseDAO<Carrito> carritoDAO = new CarritoDAO();
@@ -53,12 +55,15 @@ public class RegistrarPedido extends HttpServlet {
         // Se obtiene al cliente de la sesión
         Cliente cliente = (Cliente) session.getAttribute("cliente");
         
+        GenerarFolio genera = new GenerarFolio();
+        
         // Se crean los objetos negocios
         PedidoDetalles pd = new PedidoDetalles();
         Pedido pedido = new Pedido(cliente.getIdCliente());
         Direccion direccion = direccionDAO.consultar(cliente.getIdCliente());
         
         // Se crea el pedido para obtener su id
+        pedido.setFolio(genera.getCadenaAlfanumAleatoria());
         pedidoDAO.insertar(pedido);
         pedido = pedidoDAO.consultar(cliente.getIdCliente());
         Integer ultimoPedido = pedido.getId();
@@ -87,9 +92,15 @@ public class RegistrarPedido extends HttpServlet {
             System.err.println(ex.getMessage());
         }
         
-        request.setAttribute("totalPedido", (String.valueOf(subtotal*1.16f)));
-        
-        rd = request.getRequestDispatcher("confirmacion.jsp");
+        if (tarea.equalsIgnoreCase("paypal")){
+            rd = request.getRequestDispatcher("mispedidos.jsp");
+        } else {
+            request.setAttribute("totalPedido", (String.valueOf(subtotal*1.16f)));
+            request.setAttribute("folio", pedido.getFolio());
+
+            rd = request.getRequestDispatcher("confirmacion.jsp");
+            
+        }
         rd.forward(request, response);
     }
 

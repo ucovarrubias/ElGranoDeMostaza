@@ -53,7 +53,30 @@ public class ClientesDAO extends BaseDAO<Cliente>{
 
     @Override
     public Cliente consultar(Integer id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       Cliente cliente = null;
+
+        try {
+            Connection conexion = this.generarConexion();
+            Statement comando = conexion.createStatement();
+            ResultSet resultado = comando.executeQuery(String.format("SELECT id,usuario,nombre,email,contrasenia,apellido,telefono FROM clientes WHERE id = %d", id));
+
+            if (resultado.next()) {
+                String email = resultado.getString("email");
+                String nombre = resultado.getString("nombre");
+                String apellido = resultado.getString("apellido");
+                String usuario = resultado.getString("usuario");
+                String contrasenia = resultado.getString("contrasenia");
+                String telefono = resultado.getString("telefono");
+                cliente = new Cliente(id, nombre, apellido, email, telefono, usuario, contrasenia);
+            }
+
+            conexion.close();
+            return cliente;
+            
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+            return cliente;
+        }
     }
 
     @Override

@@ -11,7 +11,7 @@ public class Conectar{
 
     static String bd = "tienda_virtual";
     static String login = "root";
-    static String password = "";
+    static String password = "sesamo";
     static String url = "jdbc:mysql://localhost/"+bd;
     Connection connection = null;
 

@@ -9,11 +9,13 @@ public class ImagenVO {
     String nombreimg;
     InputStream archivoimg;
     private byte[] archivoimg2;
+    int cliente_id;
 
-    public ImagenVO(int id, String name, byte[] archivo) {
+    public ImagenVO(int id, String name, byte[] archivo, int cliente_id) {
         this.codigoimg = id;
         this.nombreimg = name;
         this.archivoimg2 = archivo;
+        this.cliente_id = cliente_id;
     }
 
     public ImagenVO() {
@@ -32,6 +34,10 @@ public class ImagenVO {
         return archivoimg;
     }
 
+    public int getCliente_id() {
+        return cliente_id;
+    }
+
 
     /*Todo los codigos set*/
     public void setCodigoimg(int codigoimg) {
@@ -44,6 +50,10 @@ public class ImagenVO {
 
     public void setArchivoimg(InputStream archivoimg) {
         this.archivoimg = archivoimg;
+    }
+
+    public void setCliente_id(int cliente_id) {
+        this.cliente_id = cliente_id;
     }
 
     /**

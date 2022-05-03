@@ -30,6 +30,7 @@
             ArrayList<Carrito> listaCarrito = fachada.consultarPorCliente(cliente.getIdCliente());
             Direccion direccion = (Direccion) session.getAttribute("direccion");
         %>
+        <script src="https://www.paypal.com/sdk/js?client-id=ATNuZxiukqukqfdRNmb4wJKGp94l7XLea4U5y_Xqh4w1E47lIsqxENVD6gE_ILKqWcp3jIE6xRKovrh2&components=buttons&currency=MXN"></script>
         
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -112,6 +113,31 @@
                         <p>Subtotal: <strong>$<%= subtotal %></strong></p>
                         <p>I.V.A.: <strong>$<%= subtotal * 0.16f %></strong></p>
                         <p>Total: <strong>$<%= subtotal * 1.16f %></strong></p>
+                        
+                        <div id="paypal-button-container"></div>
+                        <script>
+                            paypal.Buttons({
+                                createOrder: function(data, actions) {
+                                  // Set up the transaction
+                                  return actions.order.create({
+                                    purchase_units: [{
+                                      amount: {
+                                        value: <%= subtotal %>
+                                      }
+                                    }]
+                                  });
+                                },
+                                onApprove: function(data, actions) {
+                                  // This function captures the funds from the transaction.
+//                                  return actions.order.capture().then(function(details) {
+//                                    // This function shows a transaction success message to your buyer.
+//                                    alert('Transaction completed by ' + details.payer.name.given_name);
+//                                  });
+                                    alert('¡Pago realizado exitósamente!');
+                                    window.location.replace("registrarPedido?tarea=paypal");
+                                }
+                              }).render('#paypal-button-container')
+                        </script>
                         <button type="button" onclick="document.location='registrarPedido'" class="btn btn-primary mb-5">Realizar tu pedido y paga</button>
                     </div>
                 </div>

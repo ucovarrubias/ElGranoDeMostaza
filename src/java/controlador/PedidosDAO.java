@@ -26,7 +26,37 @@ public class PedidosDAO extends BaseDAO<Pedido>{
 
     @Override
     public ArrayList<Pedido> consultar() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      ArrayList<Pedido> listaPedidos = new ArrayList<>();
+
+        try {
+            Connection conexion = this.generarConexion();
+            Statement comando = conexion.createStatement();
+            ResultSet resultado = comando.executeQuery("SELECT id,folio,cliente_id,direccion_id,email_pedido,"
+                    + "fecha_pedido,iva,subtotal,total FROM pedidos");
+
+            while (resultado.next()) {
+
+                Pedido pedido = new Pedido();
+
+                pedido.setFolio(resultado.getString("folio"));
+                pedido.setClienteId(resultado.getInt("cliente_id"));
+                pedido.setDireccionId(resultado.getInt("direccion_id"));
+                pedido.setEmailPedido(resultado.getString("email_pedido"));
+                pedido.setFechaPedido(resultado.getDate("fecha_pedido"));
+                pedido.setId(resultado.getInt("id"));
+                pedido.setIva(resultado.getFloat("iva"));
+                pedido.setSubtotal(resultado.getFloat("subtotal"));
+                pedido.setTotal(resultado.getFloat("total"));
+
+                listaPedidos.add(pedido);
+            }
+            conexion.close();
+            return listaPedidos;
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return listaPedidos;
+        }
     }
 
     @Override
@@ -35,13 +65,14 @@ public class PedidosDAO extends BaseDAO<Pedido>{
         try {
             Connection conexion = this.generarConexion();
             Statement comando = conexion.createStatement();
-            String codigoSQL = String.format("SELECT MAX(id) AS max_id FROM pedidos WHERE cliente_id = '%d'",
+            String codigoSQL = String.format("SELECT MAX(id) AS max_id, folio FROM pedidos WHERE cliente_id = '%d'",
                     id
             );
             ResultSet resultado = comando.executeQuery(codigoSQL);
             if(resultado.next()){
                 Integer ultimoId = resultado.getInt("max_id");
-                pedido = new Pedido(ultimoId, id);
+                String folio = resultado.getString("folio");
+                pedido = new Pedido(ultimoId, folio, id);
                 return pedido;
             }
         } catch (SQLException ex){
@@ -61,7 +92,8 @@ public class PedidosDAO extends BaseDAO<Pedido>{
         // Se crea un objeto String con String.format para acomodar las variables
         // que se convertirán en formato SQL .
         String codigoSQL = String.format(
-            "INSERT INTO pedidos(cliente_id, fecha_pedido) VALUES('%d', CURRENT_TIMESTAMP)",
+            "INSERT INTO pedidos(folio, cliente_id, fecha_pedido) VALUES('%s', '%d', CURRENT_TIMESTAMP)",
+                pedido.getFolio(),
                 pedido.getClienteId()
 //                pedido.getSubtotal(),
 //                pedido.getIva(),
@@ -126,6 +158,7 @@ public class PedidosDAO extends BaseDAO<Pedido>{
             ResultSet resultado = comando.executeQuery(codigoSQL);
             while(resultado.next()){
                 Integer id = resultado.getInt("id");
+                String folio = resultado.getString("folio");
                 Float subtotal = resultado.getFloat("subtotal");
                 Float iva = resultado.getFloat("iva");
                 Float total = resultado.getFloat("total");
@@ -133,7 +166,7 @@ public class PedidosDAO extends BaseDAO<Pedido>{
                 String email_pedido = resultado.getString("email_pedido");
                 Date fecha_pedido = resultado.getDate("fecha_pedido");
                 
-                Pedido pedido = new Pedido(id, clienteId, subtotal, iva, total, direccion, email_pedido, fecha_pedido);
+                Pedido pedido = new Pedido(id, folio, clienteId, subtotal, iva, total, direccion, email_pedido, fecha_pedido);
                 listaPedidos.add(pedido);
             }
             conexion.close();
@@ -142,6 +175,42 @@ public class PedidosDAO extends BaseDAO<Pedido>{
         } catch (SQLException ex){
             System.err.println(ex.getMessage());
             return listaPedidos;
+        }
+    }
+    
+    public ArrayList<Pedido> generarReportePeriodo(String inicio, String fin) {
+
+        ArrayList<Pedido> listaSocios = new ArrayList<>();
+
+        try {
+            Connection conexion = this.generarConexion();
+            Statement comando = conexion.createStatement();
+            ResultSet resultado = comando.executeQuery("SELECT id,folio,cliente_id,direccion_id,email_pedido,"
+                    + "fecha_pedido,iva,subtotal,total FROM pedidos WHERE fecha_pedido BETWEEN '" + inicio + "' AND '"
+                    + fin + "'");
+
+            while (resultado.next()) {
+
+                Pedido pedido = new Pedido();
+
+                pedido.setFolio(resultado.getString("folio"));
+                pedido.setClienteId(resultado.getInt("cliente_id"));
+                pedido.setDireccionId(resultado.getInt("direccion_id"));
+                pedido.setEmailPedido(resultado.getString("email_pedido"));
+                pedido.setFechaPedido(resultado.getDate("fecha_pedido"));
+                pedido.setId(resultado.getInt("id"));
+                pedido.setIva(resultado.getFloat("iva"));
+                pedido.setSubtotal(resultado.getFloat("subtotal"));
+                pedido.setTotal(resultado.getFloat("total"));
+
+                listaSocios.add(pedido);
+            }
+            conexion.close();
+            return listaSocios;
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return listaSocios;
         }
     }
     
