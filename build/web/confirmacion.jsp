@@ -12,10 +12,12 @@
         <%
             Cliente cliente = (Cliente) session.getAttribute("cliente");
             String totalPedido = null;
+            String folio = null;
             if (null == cliente) {
                 response.sendRedirect("index.jsp");
             } else {
                 totalPedido = (String) request.getAttribute("totalPedido");
+                folio = (String) request.getAttribute("folio");
             }
         %>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -38,7 +40,11 @@
             <div class="row">
                 <div class="col text-center">
                     <img src="images/logo.png" alt="Logo" style="width:100px;" class="pill">
-                    <h1>¡Tu pedido se ha realizado con exito!</h1>
+                    <h1 class="mb-5">¡Tu pedido se ha realizado con exito!</h1>
+                    <h5>Tu pedido generó el siguiente folio:</h5>
+                    <h4><%= folio %></h4>
+                    <p>El folio será necesario para registrar tu pago desde tu cuenta.</p>
+                    <br>
                     <h5 class="mb-5">Los datos para la transeferencia bancaria son los siguientes:</h5>
                     <h4>Número de cuenta CLABE</h4>
                     <h4>1277 6701 3318 8922 81</h4>

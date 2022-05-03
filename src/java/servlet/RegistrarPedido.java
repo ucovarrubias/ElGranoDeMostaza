@@ -44,7 +44,8 @@ public class RegistrarPedido extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         RequestDispatcher rd;
-        String tarea = request.getParameter("tarea");
+        String tarea = "";
+        tarea = request.getParameter("tarea");
         
         // Se declaran las DAOs necesarias para las transacciones
         BaseDAO<Carrito> carritoDAO = new CarritoDAO();
@@ -92,16 +93,16 @@ public class RegistrarPedido extends HttpServlet {
             System.err.println(ex.getMessage());
         }
         
-        if (tarea.equalsIgnoreCase("paypal")){
-            rd = request.getRequestDispatcher("mispedidos.jsp");
-        } else {
+        if (tarea.equalsIgnoreCase("transf")){
             request.setAttribute("totalPedido", (String.valueOf(subtotal*1.16f)));
             request.setAttribute("folio", pedido.getFolio());
 
             rd = request.getRequestDispatcher("confirmacion.jsp");
-            
+            rd.forward(request, response);
+        } else {
+            rd = request.getRequestDispatcher("home.jsp");
+            rd.forward(request, response);
         }
-        rd.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

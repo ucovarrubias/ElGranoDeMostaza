@@ -51,7 +51,7 @@
                 <h5 class="h5 px-3"><a href="home.jsp" style=" text-decoration: none; color: inherit;"><i class="fa-solid fa-circle-user"></i> Mi perfil</a></h5>
                 <h5 class="h5 px-3"><i class="fa-solid fa-box"></i> Mis pedidos</h5>
 
-                     <h5 class="h5 px-3"><a href="Pagina1.jsp" style=" text-decoration: none; color: inherit;"><i class="fa-solid fa-chevron-right"></i> Cargar Imagen</a></h5>
+                     <h5 class="h5"><a href="registrarPago.jsp" style=" text-decoration: none; color: inherit;"><i class="fa-solid fa-chevron-right"></i> Registrar Pago</a></h5>
 
              </nav>
             <%
@@ -65,13 +65,15 @@
                     <table class="table table-striped">
                         <tr>
                             <th>PEDIDO REALIZADO</th>
+                            <th>FOLIO</th>
                             <th>TOTAL</th>
                             <th style="text-align: right;">DIRECCI&Oacute;N</th>
                         </tr>
                         <tr>
-                            <td><%=pedi.getFechaPedido()%></th>
-                            <td>$<%=pedi.getTotal()%></th>
-                            <td style="text-align: right;"><%= dir.toString() %></th>
+                            <td><%=pedi.getFechaPedido()%></td>
+                            <td><%=pedi.getFolio()%></td>
+                            <td>$<%=pedi.getTotal()%></td>
+                            <td style="text-align: right;"><%= dir.toString() %></td>
                         </tr>
                     </table>
                         <table class="table">   
@@ -86,10 +88,10 @@
                                     Producto prod = daoProducto.consultar(pd.getProductoId());%>
                         
                         <tr>
-                            <td><img class="card-img-top" style="width: 10rem;" src="<%= prod.getImagen() %>" alt="imagen"></th>
-                            <td><%=prod.getNombre()%></th>
-                            <td><%=pd.getCantidad()%></th>
-                            <td style="text-align: right;">$<%=pd.getPrecio()%></th>
+                            <td><img class="card-img-top" style="width: 10rem;" src="<%= prod.getImagen() %>" alt="imagen"></td>
+                            <td><%=prod.getNombre()%></td>
+                            <td><%=pd.getCantidad()%></td>
+                            <td style="text-align: right;">$<%=pd.getPrecio()%></td>
                         </tr>
                         <%      }
                             }%>
@@ -99,7 +101,9 @@
                 <div class="col-sm-3"></div>
             </div>
             <% }} else { %>
-                <h2>No hay productos en el carrito.</h2>
+            <div class="container">
+                <h2>No hay pedidos realizados.</h2>
+            </div>
             <% } %>
         </div>
     </body>
