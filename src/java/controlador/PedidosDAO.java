@@ -185,9 +185,8 @@ public class PedidosDAO extends BaseDAO<Pedido>{
         try {
             Connection conexion = this.generarConexion();
             Statement comando = conexion.createStatement();
-            ResultSet resultado = comando.executeQuery("SELECT id,folio,cliente_id,direccion_id,email_pedido,"
-                    + "fecha_pedido,iva,subtotal,total FROM pedidos WHERE fecha_pedido BETWEEN '" + inicio + "' AND '"
-                    + fin + "'");
+            ResultSet resultado = comando.executeQuery("SELECT * FROM pedidos WHERE TIMESTAMP(fecha_pedido) >= '" + inicio + " 00:00:00' AND TIMESTAMP(fecha_pedido) <= '"
+                    + fin + " 23:59:59'");
 
             while (resultado.next()) {
 
@@ -197,7 +196,7 @@ public class PedidosDAO extends BaseDAO<Pedido>{
                 pedido.setClienteId(resultado.getInt("cliente_id"));
                 pedido.setDireccionId(resultado.getInt("direccion_id"));
                 pedido.setEmailPedido(resultado.getString("email_pedido"));
-                pedido.setFechaPedido(resultado.getDate("fecha_pedido"));
+                pedido.setFechaPedido(new Date(resultado.getTimestamp("fecha_pedido").getTime()));
                 pedido.setId(resultado.getInt("id"));
                 pedido.setIva(resultado.getFloat("iva"));
                 pedido.setSubtotal(resultado.getFloat("subtotal"));

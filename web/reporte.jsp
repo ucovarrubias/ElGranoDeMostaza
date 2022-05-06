@@ -4,6 +4,8 @@
     Author     : Andrea
 --%>
 
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.text.DateFormat"%>
 <%@page import="modelo.PedidoDetalles"%>
 <%@page import="controlador.PedidosDetallesDAO"%>
 <%@page import="controlador.DireccionesDAO"%>
@@ -36,6 +38,7 @@
             } else {
                 listaPedidos = (ArrayList<Pedido>) request.getAttribute("listaPedidos");
             }
+            DateFormat df = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss");
         %>
 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -106,7 +109,7 @@
                                 %>
                                 <tr>
                                     <td><%= p.getId()%></td>
-                                    <td><%= p.getFechaPedido()%></td>
+                                    <td><%= df.format(p.getFechaPedido()) %></td>
                                     <td><%= c.getNombre() + " " + c.getApellido()%></td>
                                     <td><%= direccion%></td>
                                     <td><%= productos.toString()%></td>
