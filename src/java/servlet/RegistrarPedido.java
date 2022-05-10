@@ -83,23 +83,30 @@ public class RegistrarPedido extends HttpServlet {
         }
         
         pedido.setSubtotal(subtotal);
-        pedido.setIva(subtotal*0.16f);
+        pedido.setEnvio(subtotal*0.16f);
         pedido.setTotal(subtotal*1.16f);
         pedido.setDireccionId(direccion.getId());
         pedido.setEmailPedido(cliente.getEmail());
-        try {
-            pedidoDAO.actualizar(pedido);
-        } catch (Exception ex){
-            System.err.println(ex.getMessage());
-        }
         
         if (tarea.equalsIgnoreCase("transf")){
+            pedido.setEstadoPedido("Pendiente de pago");
+            try {
+                pedidoDAO.actualizar(pedido);
+            } catch (Exception ex){
+                System.err.println(ex.getMessage());
+            }
             request.setAttribute("totalPedido", (String.valueOf(subtotal*1.16f)));
             request.setAttribute("folio", pedido.getFolio());
 
             rd = request.getRequestDispatcher("confirmacion.jsp");
             rd.forward(request, response);
         } else {
+            pedido.setEstadoPedido("En proceso de envío");
+            try {
+                pedidoDAO.actualizar(pedido);
+            } catch (Exception ex){
+                System.err.println(ex.getMessage());
+            }
             rd = request.getRequestDispatcher("home.jsp");
             rd.forward(request, response);
         }

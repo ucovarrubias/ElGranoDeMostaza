@@ -46,7 +46,7 @@
         <%-- Incluye la barra de navegación --%>
         <%@include file="jspf/navbar.jspf"%>
         
-        <div class="container-fluid m-0 px-0" style="padding-top:80px;">
+        <div class="container" style="padding-top:80px;">
             <nav class="navbar navbar-expand-sm bg-none justify-content-center mb-2">
                 <h5 class="h5 px-3"><a href="home.jsp" style=" text-decoration: none; color: inherit;"><i class="fa-solid fa-circle-user"></i> Mi perfil</a></h5>
                 <h5 class="h5 px-3"><i class="fa-solid fa-box"></i> Mis pedidos</h5>
@@ -60,17 +60,18 @@
                         Direccion dir = daoDireccion.consultar(pedi.getClienteId());
             %>
             <div class="row">
-                <div class="col-sm-3"></div>
-                <div class="col-sm-6">
+                <div class="col">
                     <table class="table table-striped">
                         <tr>
                             <th>PEDIDO REALIZADO</th>
+                            <th>ESTADO</th>
                             <th>FOLIO</th>
                             <th>TOTAL</th>
                             <th style="text-align: right;">DIRECCI&Oacute;N</th>
                         </tr>
                         <tr>
                             <td><%=pedi.getFechaPedido()%></td>
+                            <td><%= pedi.getEstadoPedido() %></td>
                             <td><%=pedi.getFolio()%></td>
                             <td>$<%=pedi.getTotal()%></td>
                             <td style="text-align: right;"><%= dir.toString() %></td>
@@ -98,7 +99,6 @@
                     </table>
                     <br>
                 </div>
-                <div class="col-sm-3"></div>
             </div>
             <% }} else { %>
             <div class="container">

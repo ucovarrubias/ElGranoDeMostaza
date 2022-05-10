@@ -32,7 +32,7 @@ public class PedidosDAO extends BaseDAO<Pedido>{
             Connection conexion = this.generarConexion();
             Statement comando = conexion.createStatement();
             ResultSet resultado = comando.executeQuery("SELECT id,folio,cliente_id,direccion_id,email_pedido,"
-                    + "fecha_pedido,iva,subtotal,total FROM pedidos");
+                    + "fecha_pedido,envio,subtotal,total FROM pedidos");
 
             while (resultado.next()) {
 
@@ -44,7 +44,7 @@ public class PedidosDAO extends BaseDAO<Pedido>{
                 pedido.setEmailPedido(resultado.getString("email_pedido"));
                 pedido.setFechaPedido(resultado.getDate("fecha_pedido"));
                 pedido.setId(resultado.getInt("id"));
-                pedido.setIva(resultado.getFloat("iva"));
+                pedido.setEnvio(resultado.getFloat("envio"));
                 pedido.setSubtotal(resultado.getFloat("subtotal"));
                 pedido.setTotal(resultado.getFloat("total"));
 
@@ -122,12 +122,13 @@ public class PedidosDAO extends BaseDAO<Pedido>{
             Connection conexion = this.generarConexion();
             Statement comando = conexion.createStatement();
             String codigoSQL = String.format(
-                "UPDATE pedidos SET subtotal='%f',iva='%f', total='%f', direccion_id='%s', email_pedido='%s' WHERE id='%d'",
+                "UPDATE pedidos SET subtotal='%f',envio='%f', total='%f', direccion_id='%s', email_pedido='%s', estado_pedido='%s' WHERE id='%d'",
                 pedido.getSubtotal(),
-                pedido.getIva(),
+                pedido.getEnvio(),
                 pedido.getTotal(),
                 pedido.getDireccionId(),
                 pedido.getEmailPedido(),
+                pedido.getEstadoPedido(),
                 pedido.getId()
             );
             int conteoRegistrosAfectados = comando.executeUpdate(codigoSQL);
@@ -160,13 +161,14 @@ public class PedidosDAO extends BaseDAO<Pedido>{
                 Integer id = resultado.getInt("id");
                 String folio = resultado.getString("folio");
                 Float subtotal = resultado.getFloat("subtotal");
-                Float iva = resultado.getFloat("iva");
+                Float envio = resultado.getFloat("envio");
                 Float total = resultado.getFloat("total");
                 Integer direccion = resultado.getInt("direccion_id");
                 String email_pedido = resultado.getString("email_pedido");
                 Date fecha_pedido = resultado.getDate("fecha_pedido");
+                String estado_pedido = resultado.getString("estado_pedido");
                 
-                Pedido pedido = new Pedido(id, folio, clienteId, subtotal, iva, total, direccion, email_pedido, fecha_pedido);
+                Pedido pedido = new Pedido(id, folio, clienteId, subtotal, envio, total, direccion, email_pedido, fecha_pedido, estado_pedido);
                 listaPedidos.add(pedido);
             }
             conexion.close();
@@ -198,9 +200,10 @@ public class PedidosDAO extends BaseDAO<Pedido>{
                 pedido.setEmailPedido(resultado.getString("email_pedido"));
                 pedido.setFechaPedido(new Date(resultado.getTimestamp("fecha_pedido").getTime()));
                 pedido.setId(resultado.getInt("id"));
-                pedido.setIva(resultado.getFloat("iva"));
+                pedido.setEnvio(resultado.getFloat("envio"));
                 pedido.setSubtotal(resultado.getFloat("subtotal"));
                 pedido.setTotal(resultado.getFloat("total"));
+                pedido.setEstadoPedido(resultado.getString("estado_pedido"));
 
                 listaSocios.add(pedido);
             }
@@ -213,4 +216,26 @@ public class PedidosDAO extends BaseDAO<Pedido>{
         }
     }
     
+    public void actualizarEstadoPedido(String folio) throws Exception {
+        if(folio == null){
+            throw new Exception("Folio no encontrado");
+        }
+        try{
+            Connection conexion = this.generarConexion();
+            Statement comando = conexion.createStatement();
+            String codigoSQL = String.format(
+                "UPDATE pedidos SET estado_pedido='%s' WHERE folio='%s'",
+                "Verificando pago",
+                folio
+            );
+            int conteoRegistrosAfectados = comando.executeUpdate(codigoSQL);
+            if (conteoRegistrosAfectados == 1) {
+                System.out.println("Se actualizó el pedido");
+            } else {
+                System.out.println("No se pudo actualizar el pedido");
+            }
+        } catch(SQLException ex){
+            System.err.println(ex.getMessage());
+        }
+    }
 }

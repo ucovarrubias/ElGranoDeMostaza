@@ -4,6 +4,8 @@
     Author     : Andrea
 --%>
 
+<%@page import="modelo.Producto"%>
+<%@page import="controlador.ProductosDAO"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.text.DateFormat"%>
 <%@page import="modelo.PedidoDetalles"%>
@@ -25,12 +27,14 @@
     PedidosDetallesDAO pedidosDAO = new PedidosDetallesDAO();
     DireccionesDAO direccionDAO = new DireccionesDAO();
     ArrayList<PedidoDetalles> pedidos = new ArrayList<PedidoDetalles>();
+    ProductosDAO productoDAO = new ProductosDAO();
 
 %>
 
 <html>
     <head>
-        <%  Cliente cliente = (Cliente) session.getAttribute("cliente");
+        <%  
+            Cliente cliente = (Cliente) session.getAttribute("cliente");
             ArrayList<Pedido> listaPedidos = null;
 
             if (null == cliente) {
@@ -54,24 +58,22 @@
 
         <%@include file="jspf/navbar_negocio.jspf"%>
 
-        <div class="container-fluid m-0 px-0" style="padding-top:100px;">
+        <div class="container" style="padding-top:100px;">
             <div class="row">
-                <div class="col-sm-3"></div>
                 <div class="col">
                     <section>
 
                         <div class="row">
-                            <table class="table">
-                                <tr>
-                                    <td>Id Pedido</td>
-                                    <td>Fecha</td>
-                                    <td>Cliente</td>
-                                    <td>Direccion</td>
-                                    <td>Productos</td>
-                                    <td>Subtotal</td>
-                                    <td>Total</td>
-                                    <td>Estado del pedido</td>
-                                </tr>
+                            <table class="table table-striped">
+                                <thead>
+                                    <th>Folio</th>
+                                    <th>Fecha</th>
+                                    <th>Cliente</th>
+                                    <th>Direcci&oacute;n</th>
+                                    <th>Productos</th>
+                                    <th>Total</th>
+                                    <th>Estado del pedido</th>
+                                </thead>
                                 <%
                                     String txtPedidos = "";
 
@@ -79,44 +81,42 @@
 
                                         for (Pedido p : listaPedidos) {
 
-                                            ArrayList<Integer> productos = new ArrayList<Integer>();
+                                            ArrayList<String> productos = new ArrayList<String>();
 
                                             Cliente c = clienteDAO.consultar(p.getClienteId());
                                             Direccion d = direccionDAO.consultarPorId(p.getDireccionId());
 
                                             pedidos = pedidosDAO.consultarPorIdPedido(p.getId());
-                                            String direccion = d.getCalle() + " ," + d.getNumExterior() + ", " + d.getCiudad() + ", " + d.getEstado() + ", " + d.getPais() + ", " + String.valueOf(d.getCodigoPostal()) + ".";
+                                            String direccion = d.getCalle() + ", " + d.getNumExterior() + ", " + d.getCiudad() + ", " + d.getEstado() + ", " + d.getPais() + ", " + String.valueOf(d.getCodigoPostal()) + ".";
 
                                             for (PedidoDetalles pd : pedidos) {
-                                                productos.add(pd.getProductoId());
+                                                Producto producto = productoDAO.consultar(pd.getProductoId());
+                                                productos.add(pd.getCantidad() + " x " + producto.getNombre());
                                             }
 
                                             String stringPedidos
-                                                    = "Id del pedido: " + p.getId() + "\n"
-                                                    + "Fecha del pedido: " + p.getFechaPedido() + "\n"
+                                                    = "Folio: " + p.getFolio()+ "\n"
+                                                    + "Fecha del pedido: " + df.format(p.getFechaPedido()) + "\n"
                                                     + "Cliente: " + c.getNombre() + " " + c.getApellido() + "\n"
-                                                    + "Numero de telefono del cliente: " + c.getTelefono() + "\n"
+                                                    + "Número de teléfono del cliente: " + c.getTelefono() + "\n"
                                                     + "Email del cliente: " + c.getEmail() + "\n"
-                                                    + "Direccion de envio: " + direccion + "\n"
-                                                    + "Id de productos del pedido: " + productos.toString() + "\n"
-                                                    + "Subtotal del pedido: " + p.getSubtotal() + "\n"
+                                                    + "Dirección de envio: " + direccion + "\n"
+                                                    + "Productos del pedido: " + productos.toString() + "\n"
                                                     + "Total del pedido: " + p.getTotal() + "\n"
-                                                    + "Estado del pedido: " + "\n"
+                                                    + "Estado del pedido: " + p.getEstadoPedido() + "\n"
                                                     + "------------------------------------------------------------------------------------------------------------------\n";
 
                                             txtPedidos = txtPedidos + stringPedidos;
-
                                 %>
-                                <tr>
-                                    <td><%= p.getId()%></td>
+                                <tbody>
+                                    <td><%= p.getFolio() %></td>
                                     <td><%= df.format(p.getFechaPedido()) %></td>
                                     <td><%= c.getNombre() + " " + c.getApellido()%></td>
                                     <td><%= direccion%></td>
-                                    <td><%= productos.toString()%></td>
-                                    <td><%= p.getSubtotal()%></td>
-                                    <td><%= p.getTotal()%></td>
-                                    <td></td>
-                                </tr>
+                                    <td><%= productos.toString() %></td>
+                                    <td><%= "$" + p.getTotal()%></td>
+                                    <td><%= p.getEstadoPedido()%></td>
+                                </tbody>
 
                                 <%}
                                     }
@@ -167,7 +167,6 @@
 
                     </section>
                 </div>
-                <div class="col-sm-3"></div>
             </div>
         </div>
     </body>

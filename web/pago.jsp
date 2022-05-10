@@ -110,7 +110,7 @@
                     <hr>   
                     <div class="text-end mb-5">
                         <p>Subtotal: <strong>$<%= subtotal %></strong></p>
-                        <p>I.V.A.: <strong>$<%= subtotal * 0.16f %></strong></p>
+                        <p>Envio: <strong>$<%= subtotal * 0.16f %></strong></p>
                         <p>Total: <strong>$<%= subtotal * 1.16f %></strong></p>
                         
                         <div class="my-3">
@@ -124,7 +124,7 @@
                                           return actions.order.create({
                                             purchase_units: [{
                                               amount: {
-                                                value: <%= subtotal %>
+                                                value: <%= subtotal * 1.16f %>
                                               }
                                             }]
                                           });

@@ -4,6 +4,7 @@ import Conexion.sql;
 
 import VO.ImagenVO;
 import controlador.ImagenDAO;
+import controlador.PedidosDAO;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.servlet.RequestDispatcher;
@@ -81,12 +82,15 @@ public class ControllerImagen extends HttpServlet {
         Cliente cliente = (Cliente) session.getAttribute("cliente");
         
         ImagenVO imagenvo = new ImagenVO();
+        PedidosDAO pedidoDAO = new PedidosDAO();
         sql auto = new sql();
+        
+        String folio = null;
         int nuevoid = auto.auto_increm("SELECT MAX(codigoimg) FROM imagen;");
         
         try{
-            String name = request.getParameter("txtname");
-            imagenvo.setNombreimg(name);
+            folio = request.getParameter("txtname");
+            imagenvo.setNombreimg(folio);
         }catch(Exception ex){
             System.out.println("nombre: "+ex.getMessage());
         }
@@ -112,6 +116,7 @@ public class ControllerImagen extends HttpServlet {
                 if (inputStream != null) {
                     imagenvo.setArchivoimg(inputStream);
                 }
+                pedidoDAO.actualizarEstadoPedido(folio);
                 imagendao.Agregar_ImagenVO(imagenvo);
             } else {
                 imagenvo.setCodigoimg(id_pdf);

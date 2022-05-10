@@ -16,11 +16,12 @@ public class Pedido {
     private String folio;
     private Integer clienteId;
     private Float subtotal;
-    private Float iva;
+    private Float envio;
     private Float total;
     private Integer direccionId;
     private String emailPedido;
     private Date fechaPedido;
+    private String estadoPedido;
 
     public Pedido() {
     }
@@ -35,27 +36,29 @@ public class Pedido {
         this.clienteId = clienteId;
     }    
 
-    public Pedido(String folio, Integer clienteId, Float subtotal, Float iva, Float total, Integer direccionId, String emailPedido, Date fechaPedido) {
+    public Pedido(String folio, Integer clienteId, Float subtotal, Float envio, Float total, Integer direccionId, String emailPedido, Date fechaPedido, String estadoPedido) {
         this.folio = folio;
         this.clienteId = clienteId;
         this.subtotal = subtotal;
-        this.iva = iva;
+        this.envio = envio;
         this.total = total;
         this.direccionId = direccionId;
         this.emailPedido = emailPedido;
         this.fechaPedido = fechaPedido;
+        this.estadoPedido = estadoPedido;
     }
 
-    public Pedido(Integer id, String folio, Integer clienteId, Float subtotal, Float iva, Float total, Integer direccionId, String emailPedido, Date fechaPedido) {
+    public Pedido(Integer id, String folio, Integer clienteId, Float subtotal, Float envio, Float total, Integer direccionId, String emailPedido, Date fechaPedido, String estadoPedido) {
         this.id = id;
         this.folio = folio;
         this.clienteId = clienteId;
         this.subtotal = subtotal;
-        this.iva = iva;
+        this.envio = envio;
         this.total = total;
         this.direccionId = direccionId;
         this.emailPedido = emailPedido;
         this.fechaPedido = fechaPedido;
+        this.estadoPedido = estadoPedido;
     }
 
     public Integer getId() {
@@ -90,12 +93,12 @@ public class Pedido {
         this.subtotal = subtotal;
     }
 
-    public Float getIva() {
-        return iva;
+    public Float getEnvio() {
+        return envio;
     }
 
-    public void setIva(Float iva) {
-        this.iva = iva;
+    public void setEnvio(Float envio) {
+        this.envio = envio;
     }
 
     public Float getTotal() {
@@ -130,9 +133,17 @@ public class Pedido {
         this.fechaPedido = fechaPedido;
     }
 
-    @Override
-    public String toString() {
-        return "Pedido{" + "id=" + id + ", folio=" + folio + ", clienteId=" + clienteId + ", subtotal=" + subtotal + ", iva=" + iva + ", total=" + total + ", direccionId=" + direccionId + ", emailPedido=" + emailPedido + ", fechaPedido=" + fechaPedido + '}';
+    public String getEstadoPedido() {
+        return estadoPedido;
     }
 
+    public void setEstadoPedido(String estadoPedido) {
+        this.estadoPedido = estadoPedido;
+    }
+
+    @Override
+    public String toString() {
+        return "Pedido{" + "id=" + id + ", folio=" + folio + ", clienteId=" + clienteId + ", subtotal=" + subtotal + ", envio=" + envio + ", total=" + total + ", direccionId=" + direccionId + ", emailPedido=" + emailPedido + ", fechaPedido=" + fechaPedido + ", estadoPedido=" + estadoPedido + '}';
+    }
+    
 }
