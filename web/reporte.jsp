@@ -4,6 +4,7 @@
     Author     : Andrea
 --%>
 
+<%@page import="modelo.Admin"%>
 <%@page import="modelo.Producto"%>
 <%@page import="controlador.ProductosDAO"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -34,10 +35,10 @@
 <html>
     <head>
         <%  
-            Cliente cliente = (Cliente) session.getAttribute("cliente");
+            Admin admin = (Admin) session.getAttribute("admin");
             ArrayList<Pedido> listaPedidos = null;
 
-            if (null == cliente) {
+            if (null == admin) {
                 response.sendRedirect("index.jsp");
             } else {
                 listaPedidos = (ArrayList<Pedido>) request.getAttribute("listaPedidos");
@@ -124,12 +125,12 @@
                             </table>
                         </div>
 
-                        <div class="text-end">
-                            <br>
-                            <button id="btn" type="submit" class="btn btn-primary mb-5">Generar reporte</button>
+                        <div class="justify-content-between d-flex">
+                                    
+                            <a class="btn btn-primary" role="button" href="reportes.jsp">Regresar</a>
+                            <button id="btn" type="submit" class="btn btn-primary">Descargar reporte</button>
 
-                            <textarea id="text" hidden><%=txtPedidos%>
-                            </textarea>
+                            <textarea id="text" hidden><%=txtPedidos%></textarea>
 
                             <script>
                                 function download(file, text) {
@@ -164,7 +165,6 @@
                                         }, false);
                             </script>
                         </div>
-
                     </section>
                 </div>
             </div>

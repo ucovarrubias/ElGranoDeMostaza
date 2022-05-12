@@ -15,7 +15,7 @@
             if (null == cliente) {
                 response.sendRedirect("index.jsp");
             } else {
-                Direccion direccion = (Direccion) session.getAttribute("direccion");
+                Direccion direccion = (Direccion) request.getAttribute("direccion");
             }
         %>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">

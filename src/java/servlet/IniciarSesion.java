@@ -5,6 +5,7 @@
  */
 package servlet;
 
+import controlador.AdminDAO;
 import controlador.BaseDAO;
 import controlador.ClientesDAO;
 import controlador.DireccionesDAO;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import modelo.Admin;
 import modelo.Cliente;
 import modelo.Direccion;
 
@@ -38,37 +40,51 @@ public class IniciarSesion extends HttpServlet {
         RequestDispatcher rd;
         HttpSession session = request.getSession();
         String siguiente = "";
-        Cliente cliente = new Cliente();
+        
         
         // Obtiene de la solicitud los datos de un cliente y los guarda al bean cliente
         String usuario = request.getParameter("usuario");
         String contrasenia = request.getParameter("contrasenia");
         
+        // Primero se autentica si es admin
         // Crea el objeto para acceder a la base de datos
-        BaseDAO<Cliente> fachada = new ClientesDAO();
-        cliente = fachada.autenticacion(usuario, contrasenia);
-        
-        // Si el cliente existe en la base de datos
-        if (cliente != null) {
-            BaseDAO<Direccion> fachada2 = new DireccionesDAO();
-            Direccion direccion = fachada2.consultar(cliente.getIdCliente());
-            
-            
-            // Crea la variable de solicitud cliente, con el cliente existente
-            request.setAttribute("cliente", cliente);
-            session.setAttribute("cliente", cliente);
-            session.setAttribute("direccion", direccion);
+        Admin admin = new Admin();
+        BaseDAO<Admin> fachadaAdmin = new AdminDAO();
+        admin = fachadaAdmin.autenticacion(usuario, contrasenia);
 
-            siguiente = "home.jsp";
-            // Establece la página JSP o servlet siguiente
+        // Si el admin existe en la base de datos
+        if (admin != null){
+            session.setAttribute("admin", admin);
+            siguiente = "reportes.jsp";
             rd = request.getRequestDispatcher(siguiente);
+            rd.forward(request, response);
+        } else { //De lo contrario, autentica el cliente
+            Cliente cliente = new Cliente();
+            BaseDAO<Cliente> fachada = new ClientesDAO();
+            cliente = fachada.autenticacion(usuario, contrasenia);
+            
+            // Si el cliente existe en la base de datos
+            if (cliente != null) {
+                BaseDAO<Direccion> fachada2 = new DireccionesDAO();
+                Direccion direccion = fachada2.consultar(cliente.getIdCliente());
 
-            // Redirecciona a la página JSP o servlet siguiente
-            rd.forward(request, response);
-        } else {
-            request.setAttribute("errorMessage", "Usuario o contraseña incorrectas");
-            rd = request.getRequestDispatcher("index.jsp");
-            rd.forward(request, response);
+
+                // Crea la variable de solicitud cliente, con el cliente existente
+                session.setAttribute("cliente", cliente);
+                request.setAttribute("cliente", cliente);
+                request.setAttribute("direccion", direccion);
+
+                siguiente = "home.jsp";
+                // Establece la página JSP o servlet siguiente
+                rd = request.getRequestDispatcher(siguiente);
+
+                // Redirecciona a la página JSP o servlet siguiente
+                rd.forward(request, response);
+            } else {
+                request.setAttribute("errorMessage", "Usuario o contraseña incorrectas");
+                rd = request.getRequestDispatcher("index.jsp");
+                rd.forward(request, response);
+            }
         }
     }
 

@@ -4,7 +4,7 @@
     Author     : Andrea
 --%>
 
-<%@page import="modelo.Cliente"%>
+<%@page import="modelo.Admin"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
@@ -12,8 +12,8 @@
 <html>
     <head>
         <%  
-            Cliente cliente = (Cliente) session.getAttribute("cliente");
-            if (null == cliente) {
+            Admin admin = (Admin) session.getAttribute("admin");
+            if (null == admin) {
                 response.sendRedirect("index.jsp");
             }
         %>
