@@ -216,7 +216,7 @@ public class PedidosDAO extends BaseDAO<Pedido>{
         }
     }
     
-    public void actualizarEstadoPedido(String folio) throws Exception {
+    public void actualizarEstadoPedido(String folio, String estado) throws Exception {
         if(folio == null){
             throw new Exception("Folio no encontrado");
         }
@@ -225,7 +225,7 @@ public class PedidosDAO extends BaseDAO<Pedido>{
             Statement comando = conexion.createStatement();
             String codigoSQL = String.format(
                 "UPDATE pedidos SET estado_pedido='%s' WHERE folio='%s'",
-                "Verificando pago",
+                estado,
                 folio
             );
             int conteoRegistrosAfectados = comando.executeUpdate(codigoSQL);

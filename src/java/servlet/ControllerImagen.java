@@ -116,7 +116,7 @@ public class ControllerImagen extends HttpServlet {
                 if (inputStream != null) {
                     imagenvo.setArchivoimg(inputStream);
                 }
-                pedidoDAO.actualizarEstadoPedido(folio);
+                pedidoDAO.actualizarEstadoPedido(folio, "Verificando pago");
                 imagendao.Agregar_ImagenVO(imagenvo);
             } else {
                 imagenvo.setCodigoimg(id_pdf);

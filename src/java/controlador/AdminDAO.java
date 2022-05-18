@@ -37,7 +37,7 @@ public class AdminDAO extends BaseDAO<Admin>{
             conexion.close();
             return admin;
         } catch (SQLException ex){
-            System.err.println(ex.getMessage());
+            System.err.println(ex.getLocalizedMessage());
             return admin;
         }
     }

@@ -4,14 +4,23 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/D:/Documentos/ITSON/Ing.%20en%20Software/Proyecto%20de%20Software%20Integrador/ElGranoDeMostaza/ElGranoDeMostaza/web/confirmacion.jsp</file>
+            <file>file:/D:/Documentos/ITSON/Ing.%20en%20Software/Proyecto%20de%20Software%20Integrador/ElGranoDeMostaza/ElGranoDeMostaza/web/jspf/navbar_negocio.jspf</file>
+            <file>file:/D:/Documentos/ITSON/Ing.%20en%20Software/Proyecto%20de%20Software%20Integrador/ElGranoDeMostaza/ElGranoDeMostaza/src/java/servlet/EliminarCliente.java</file>
             <file>file:/D:/Documentos/ITSON/Ing.%20en%20Software/Proyecto%20de%20Software%20Integrador/ElGranoDeMostaza/ElGranoDeMostaza/web/Pagina2.jsp</file>
+            <file>file:/D:/Documentos/ITSON/Ing.%20en%20Software/Proyecto%20de%20Software%20Integrador/ElGranoDeMostaza/ElGranoDeMostaza/src/java/modelo/Admin.java</file>
             <file>file:/D:/Documentos/ITSON/Ing.%20en%20Software/Proyecto%20de%20Software%20Integrador/ElGranoDeMostaza/ElGranoDeMostaza/src/java/servlet/ControllerImagen.java</file>
+            <file>file:/D:/Documentos/ITSON/Ing.%20en%20Software/Proyecto%20de%20Software%20Integrador/ElGranoDeMostaza/ElGranoDeMostaza/src/java/servlet/IniciarSesion.java</file>
+            <file>file:/D:/Documentos/ITSON/Ing.%20en%20Software/Proyecto%20de%20Software%20Integrador/ElGranoDeMostaza/ElGranoDeMostaza/web/consultaPagos.jsp</file>
+            <file>file:/D:/Documentos/ITSON/Ing.%20en%20Software/Proyecto%20de%20Software%20Integrador/ElGranoDeMostaza/ElGranoDeMostaza/src/java/controlador/ClientesDAO.java</file>
             <file>file:/D:/Documentos/ITSON/Ing.%20en%20Software/Proyecto%20de%20Software%20Integrador/ElGranoDeMostaza/ElGranoDeMostaza/src/java/VO/ImagenVO.java</file>
+            <file>file:/D:/Documentos/ITSON/Ing.%20en%20Software/Proyecto%20de%20Software%20Integrador/ElGranoDeMostaza/ElGranoDeMostaza/src/java/controlador/AdminDAO.java</file>
             <file>file:/D:/Documentos/ITSON/Ing.%20en%20Software/Proyecto%20de%20Software%20Integrador/ElGranoDeMostaza/ElGranoDeMostaza/web/pago.jsp</file>
             <file>file:/D:/Documentos/ITSON/Ing.%20en%20Software/Proyecto%20de%20Software%20Integrador/ElGranoDeMostaza/ElGranoDeMostaza/src/java/controlador/PedidosDAO.java</file>
             <file>file:/D:/Documentos/ITSON/Ing.%20en%20Software/Proyecto%20de%20Software%20Integrador/ElGranoDeMostaza/ElGranoDeMostaza/web/pedido.jsp</file>
+            <file>file:/D:/Documentos/ITSON/Ing.%20en%20Software/Proyecto%20de%20Software%20Integrador/ElGranoDeMostaza/ElGranoDeMostaza/web/jspf/navbar.jspf</file>
             <file>file:/D:/Documentos/ITSON/Ing.%20en%20Software/Proyecto%20de%20Software%20Integrador/ElGranoDeMostaza/ElGranoDeMostaza/web/reportes.jsp</file>
             <file>file:/D:/Documentos/ITSON/Ing.%20en%20Software/Proyecto%20de%20Software%20Integrador/ElGranoDeMostaza/ElGranoDeMostaza/web/registrarPago.jsp</file>
+            <file>file:/D:/Documentos/ITSON/Ing.%20en%20Software/Proyecto%20de%20Software%20Integrador/ElGranoDeMostaza/ElGranoDeMostaza/src/java/servlet/CerrarSesion.java</file>
             <file>file:/D:/Documentos/ITSON/Ing.%20en%20Software/Proyecto%20de%20Software%20Integrador/ElGranoDeMostaza/ElGranoDeMostaza/web/mispedidos.jsp</file>
             <file>file:/D:/Documentos/ITSON/Ing.%20en%20Software/Proyecto%20de%20Software%20Integrador/ElGranoDeMostaza/ElGranoDeMostaza/web/reporte.jsp</file>
             <file>file:/D:/Documentos/ITSON/Ing.%20en%20Software/Proyecto%20de%20Software%20Integrador/ElGranoDeMostaza/ElGranoDeMostaza/web/home.jsp</file>

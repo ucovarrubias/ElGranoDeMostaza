@@ -112,7 +112,8 @@
                         <p>Subtotal: <strong>$<%= subtotal %></strong></p>
                         <p>Envio: <strong>$<%= subtotal * 0.16f %></strong></p>
                         <p>Total: <strong>$<%= subtotal * 1.16f %></strong></p>
-                        
+                        <h3>Formas de pago:</h3>
+                        <hr>
                         <div class="my-3">
                             <button class="btn btn-light" data-bs-toggle="collapse" data-bs-target="#paypal" aria-expanded="false" aria-controls="paypal">Pagar con Paypal</button>
                             <div class="collapse" id="paypal">

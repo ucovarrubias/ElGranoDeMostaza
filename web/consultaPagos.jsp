@@ -88,6 +88,9 @@
                             }
                         %>
                     </td>
+                    <td>
+                        <a class="btn-sm btn-primary" role="button" href="actualizarPedido?folio=<%=imgvo.getNombreimg()%>">Confirmar pago</a>
+                    </td>
                 </tr>
                 <%      }
                     }%>
